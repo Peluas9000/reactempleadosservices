@@ -15,4 +15,14 @@ export default class ServicioEmpleados   {
 
         )
     }
+
+    getEmpleadoByOficio=(oficio)=>{
+        return this.getEmpleados().then(empleados =>
+            empleados.filter(empleado =>
+                empleado.oficio.toLowerCase() === oficio.toLowerCase()
+            )
+        );
+    }
+
+
 }
