@@ -1,14 +1,20 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import ServicioOficina from '../services/ServicioOficina';
-import Home from './Home';
 export default class MenuComponents extends Component {
     servicio=new ServicioOficina();
     state={
         oficios:[]
     }
     loadOficios=()=>{
-       
+       this.servicio.getOficios().then((res)=>{
+        this.setState({
+            oficios:res
+        })
+       }).catch(error => {
+       console.error('No se pudieron cargar los oficios:', error);
+       })
+
     }
 
     componentDidMount=()=>{
@@ -40,16 +46,13 @@ export default class MenuComponents extends Component {
                  
                         <ul className="dropdown-menu">
                             {
-                                this.state.oficios.map((oficio,index)=>{
-                                    return(<li key={index} className="dropdown-item">
+                                this.state.oficios.map((oficio, index) => {
+                                    return (<li key={index} className="dropdown-item">
                                         {oficio}
                                     </li>)
                                 })
                             }
                         </ul>
-                   
-                        
-                    <a className="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
                 </div>
