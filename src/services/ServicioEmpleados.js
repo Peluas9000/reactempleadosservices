@@ -16,12 +16,29 @@ export default class ServicioEmpleados   {
         )
     }
 
+
+     getOficios = () => {
+        return new Promise (function(resolve,reject){
+            let url= Global.urlApiEmpleados
+            let request ="/api/Empleados/Oficios";
+            axios.get(url+request).then(response=>{
+                resolve(response.data);
+            }).catch(error=>{
+                reject(error);
+            })
+        })
+    }
+
     getEmpleadoByOficio=(oficio)=>{
-        return this.getEmpleados().then(empleados =>
-            empleados.filter(empleado =>
-                empleado.oficio.toLowerCase() === oficio.toLowerCase()
-            )
-        );
+       return new Promise (function(resolve,reject){
+            let url = Global.urlApiEmpleados;
+            let request = "/api/Empleados/EmpleadosOficio/"+oficio;
+            axios.get(url+request).then(response=>{
+                resolve(response.data);
+            }).catch(error=>{
+                reject(error);
+            })
+       })
     }
 
 

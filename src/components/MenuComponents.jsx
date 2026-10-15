@@ -1,26 +1,31 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
-import ServicioOficina from '../services/ServicioOficina';
+import ServicioEmpleados from '../services/ServicioEmpleados';
 export default class MenuComponents extends Component {
-    servicio=new ServicioOficina();
+
+    servicio=new ServicioEmpleados();
     state={
         oficios:[]
     }
-    loadOficios=()=>{
-       this.servicio.getOficios().then((res)=>{
-        this.setState({
-            oficios:res
-        })
-       }).catch(error => {
-       console.error('No se pudieron cargar los oficios:', error);
-       })
 
+    loadOficios=()=>{
+        this.servicio.getOficios().then((res)=>{
+            this.setState({
+                oficios:res
+            })
+        })
     }
 
     componentDidMount=()=>{
         this.loadOficios();
     }
-    
+
+    componentDidUpdate=(prevProps)=>{
+        if(prevProps.oficio !== this.props.oficio){
+            this.loadOficios();
+        }
+    }
+
     render() {
         return (
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -45,13 +50,18 @@ export default class MenuComponents extends Component {
                             </a>
                  
                         <ul className="dropdown-menu">
-                            {
-                                this.state.oficios.map((oficio, index) => {
-                                    return (<li key={index} className="dropdown-item">
-                                       <NavLink to={`/empleadooficina/${oficio}`}> {oficio}</NavLink>
-                                    </li>)
-                                })
+                           {
+                            this.state.oficios.map((oficio,index)=>{
+                                return(
+                                    <li key={index}>
+                                        <NavLink className="dropdown-item" to={"/oficio/"+oficio}>
+                                            {oficio}
+                                        </NavLink>
+                                    </li>
+                                )
                             }
+                            )
+                           }
                         </ul>
                     </li>
                 </ul>
